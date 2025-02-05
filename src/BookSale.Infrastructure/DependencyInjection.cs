@@ -45,6 +45,7 @@ namespace BookSale.Infrastructure
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IEmailTemplateRender, EmailTemplateRender>();
             services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddScoped<ICartRepository, CartRepository>();
             return services;
         }
     }

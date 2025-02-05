@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookSale.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250118134038_websaledbinit")]
-    partial class websaledbinit
+    [Migration("20250217092507_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,9 +273,9 @@ namespace BookSale.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3843),
+                            CreatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(72),
                             Name = "VNPay",
-                            UpdatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3844)
+                            UpdatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(73)
                         });
                 });
 
@@ -352,16 +352,16 @@ namespace BookSale.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3398),
+                            CreatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8875),
                             Name = "admin",
-                            UpdatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3398)
+                            UpdatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8876)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3400),
+                            CreatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8877),
                             Name = "member",
-                            UpdatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3401)
+                            UpdatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8878)
                         });
                 });
 
@@ -395,6 +395,10 @@ namespace BookSale.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsEmailConfirmed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_email_confirm");
 
                     b.Property<bool>("IsStaff")
                         .HasColumnType("boolean")
@@ -434,32 +438,34 @@ namespace BookSale.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3789),
-                            DateJoined = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3790),
+                            CreatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(50),
+                            DateJoined = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(51),
                             Email = "admin@email.com",
                             FullName = "Admin",
                             IsActive = true,
+                            IsEmailConfirmed = true,
                             IsStaff = false,
                             IsSuperUser = true,
-                            LastLogin = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3791),
-                            Password = "$2a$11$Yv3vX6vtu5Rw0s.B0z.9Ae14Us5FKRCkrXi17IuDCOh4TP2c5Bn8.",
+                            LastLogin = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(52),
+                            Password = "$2a$11$l9ObSHeC6N1/X70FsG3.SOdRGlJFo51OzyLojhni.P5jQkmBpJ3/K",
                             RoleId = 1,
-                            UpdatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3794)
+                            UpdatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(60)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3799),
-                            DateJoined = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3800),
+                            CreatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(64),
+                            DateJoined = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(65),
                             Email = "tien@email.com",
                             FullName = "Tien",
                             IsActive = true,
+                            IsEmailConfirmed = true,
                             IsStaff = false,
                             IsSuperUser = false,
-                            LastLogin = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3801),
-                            Password = "$2a$11$Yv3vX6vtu5Rw0s.B0z.9Ae14Us5FKRCkrXi17IuDCOh4TP2c5Bn8.",
+                            LastLogin = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(66),
+                            Password = "$2a$11$l9ObSHeC6N1/X70FsG3.SOdRGlJFo51OzyLojhni.P5jQkmBpJ3/K",
                             RoleId = 2,
-                            UpdatedAt = new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3802)
+                            UpdatedAt = new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(67)
                         });
                 });
 

@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BookSale.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class websaledbinit : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,6 +47,36 @@ namespace BookSale.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "payment_methods",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payment_methods", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "roles_role",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_roles_role", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "books",
                 columns: table => new
                 {
@@ -73,6 +105,64 @@ namespace BookSale.Infrastructure.Migrations
                         name: "FK_books_categories_categorys_id",
                         column: x => x.categorys_id,
                         principalTable: "categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "orders",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    customer_name = table.Column<string>(type: "text", nullable: false),
+                    customer_phone = table.Column<string>(type: "text", nullable: false),
+                    amount = table.Column<decimal>(type: "numeric(18,4)", nullable: false),
+                    currency = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
+                    payment_method_id = table.Column<int>(type: "integer", nullable: false),
+                    payment_order_id = table.Column<string>(type: "text", nullable: true),
+                    user_id = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_orders", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_orders_payment_methods_payment_method_id",
+                        column: x => x.payment_method_id,
+                        principalTable: "payment_methods",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users_user",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    email = table.Column<string>(type: "text", nullable: false),
+                    password = table.Column<string>(type: "text", nullable: false),
+                    last_login = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_superuser = table.Column<bool>(type: "boolean", nullable: false),
+                    is_staff = table.Column<bool>(type: "boolean", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
+                    is_email_confirm = table.Column<bool>(type: "boolean", nullable: false),
+                    date_joined = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    role_id = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users_user", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_users_user_roles_role_role_id",
+                        column: x => x.role_id,
+                        principalTable: "roles_role",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -136,40 +226,28 @@ namespace BookSale.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "payment_methods",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3843), new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3844) });
+                columns: new[] { "id", "created_at", "name", "updated_at" },
+                values: new object[] { 1, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(72), "VNPay", new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(73) });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "roles_role",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3398), new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3398) });
+                columns: new[] { "id", "created_at", "name", "updated_at" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8875), "admin", new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8876) },
+                    { 2, new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8877), "member", new DateTime(2025, 2, 17, 9, 25, 6, 826, DateTimeKind.Utc).AddTicks(8878) }
+                });
 
-            migrationBuilder.UpdateData(
-                table: "roles_role",
-                keyColumn: "id",
-                keyValue: 2,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3400), new DateTime(2025, 1, 18, 13, 40, 37, 268, DateTimeKind.Utc).AddTicks(3401) });
-
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "users_user",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "date_joined", "last_login", "password", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3789), new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3790), new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3791), "$2a$11$Yv3vX6vtu5Rw0s.B0z.9Ae14Us5FKRCkrXi17IuDCOh4TP2c5Bn8.", new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3794) });
-
-            migrationBuilder.UpdateData(
-                table: "users_user",
-                keyColumn: "id",
-                keyValue: 2,
-                columns: new[] { "created_at", "date_joined", "last_login", "password", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3799), new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3800), new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3801), "$2a$11$Yv3vX6vtu5Rw0s.B0z.9Ae14Us5FKRCkrXi17IuDCOh4TP2c5Bn8.", new DateTime(2025, 1, 18, 13, 40, 37, 437, DateTimeKind.Utc).AddTicks(3802) });
+                columns: new[] { "id", "created_at", "date_joined", "email", "name", "is_active", "is_email_confirm", "is_staff", "is_superuser", "last_login", "password", "role_id", "updated_at" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(50), new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(51), "admin@email.com", "Admin", true, true, false, true, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(52), "$2a$11$l9ObSHeC6N1/X70FsG3.SOdRGlJFo51OzyLojhni.P5jQkmBpJ3/K", 1, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(60) },
+                    { 2, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(64), new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(65), "tien@email.com", "Tien", true, true, false, false, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(66), "$2a$11$l9ObSHeC6N1/X70FsG3.SOdRGlJFo51OzyLojhni.P5jQkmBpJ3/K", 2, new DateTime(2025, 2, 17, 9, 25, 6, 973, DateTimeKind.Utc).AddTicks(67) }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_books_authors_id",
@@ -192,6 +270,11 @@ namespace BookSale.Infrastructure.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_orders_payment_method_id",
+                table: "orders",
+                column: "payment_method_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_reviews_book_id",
                 table: "reviews",
                 column: "book_id");
@@ -200,6 +283,17 @@ namespace BookSale.Infrastructure.Migrations
                 name: "IX_reviews_user_id",
                 table: "reviews",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_user_email",
+                table: "users_user",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_user_role_id",
+                table: "users_user",
+                column: "role_id");
         }
 
         /// <inheritdoc />
@@ -209,10 +303,19 @@ namespace BookSale.Infrastructure.Migrations
                 name: "carts");
 
             migrationBuilder.DropTable(
+                name: "orders");
+
+            migrationBuilder.DropTable(
                 name: "reviews");
 
             migrationBuilder.DropTable(
+                name: "payment_methods");
+
+            migrationBuilder.DropTable(
                 name: "books");
+
+            migrationBuilder.DropTable(
+                name: "users_user");
 
             migrationBuilder.DropTable(
                 name: "authors");
@@ -220,40 +323,8 @@ namespace BookSale.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "categories");
 
-            migrationBuilder.UpdateData(
-                table: "payment_methods",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(151), new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(151) });
-
-            migrationBuilder.UpdateData(
-                table: "roles_role",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 3, 12, 29, 596, DateTimeKind.Utc).AddTicks(7977), new DateTime(2025, 1, 18, 3, 12, 29, 596, DateTimeKind.Utc).AddTicks(7977) });
-
-            migrationBuilder.UpdateData(
-                table: "roles_role",
-                keyColumn: "id",
-                keyValue: 2,
-                columns: new[] { "created_at", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 3, 12, 29, 596, DateTimeKind.Utc).AddTicks(7980), new DateTime(2025, 1, 18, 3, 12, 29, 596, DateTimeKind.Utc).AddTicks(7980) });
-
-            migrationBuilder.UpdateData(
-                table: "users_user",
-                keyColumn: "id",
-                keyValue: 1,
-                columns: new[] { "created_at", "date_joined", "last_login", "password", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(130), new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(131), new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(132), "$2a$11$HU1fFqUwWJPpEojdbBQW7O/xCNIVMQlJWLM9Eb9RlzZOV9/7zfoRa", new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(140) });
-
-            migrationBuilder.UpdateData(
-                table: "users_user",
-                keyColumn: "id",
-                keyValue: 2,
-                columns: new[] { "created_at", "date_joined", "last_login", "password", "updated_at" },
-                values: new object[] { new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(145), new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(146), new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(146), "$2a$11$HU1fFqUwWJPpEojdbBQW7O/xCNIVMQlJWLM9Eb9RlzZOV9/7zfoRa", new DateTime(2025, 1, 18, 3, 12, 29, 784, DateTimeKind.Utc).AddTicks(147) });
+            migrationBuilder.DropTable(
+                name: "roles_role");
         }
     }
 }

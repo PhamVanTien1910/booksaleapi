@@ -90,7 +90,7 @@ public class Program
                 if (dbContext.Database.CanConnect())
                 {
                     logger.LogInformation("Database connection successful.");
-                    dbContext.Database.Migrate();
+                    dbContext.Database.Migrate(); // auto update migrate
                 }
                 else
                 {

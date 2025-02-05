@@ -22,14 +22,21 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=dotnet-boilerplate-docker
+      - POSTGRES_DB=dotnet-booksale-docker
     ports:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
       - dotnet-boilerplate-network
-
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - dotnet-boilerplate-network
 volumes:
   db-data:
 

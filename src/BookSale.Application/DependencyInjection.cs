@@ -20,6 +20,7 @@ using BookSale.Application.Configuration;
 using BookSale.Application.EmailHelper;
 using dotnet_boilerplate.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using BookSale.Application.Services.Carts;
 
 namespace BookSale.Infrastructure
 {
@@ -47,7 +48,7 @@ namespace BookSale.Infrastructure
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IEmailHelper, EmailHelper>();
-
+            services.AddScoped<ICartService, CartService>();
             // Configure email settings from configuration
             services.Configure<EmailConfig>(options =>
             {

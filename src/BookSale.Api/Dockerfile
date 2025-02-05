@@ -19,6 +19,7 @@ COPY ["BookSale.Api/BookSale.Api.csproj", "BookSale.Api/"]
 COPY ["BookSale.Application/BookSale.Application.csproj", "BookSale.Application/"]
 COPY ["BookSale.Domain/BookSale.Domain.csproj", "BookSale.Domain/"]
 COPY ["BookSale.Infrastructure/BookSale.Infrastructure.csproj", "BookSale.Infrastructure/"]
+
 RUN dotnet restore "./BookSale.Api/BookSale.Api.csproj"
 COPY . .
 WORKDIR "/src/BookSale.Api"
